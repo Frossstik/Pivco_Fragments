@@ -19,7 +19,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.pivco_fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardFragment"
         android:name="com.example.pivco_fragments.OnboardFragment"

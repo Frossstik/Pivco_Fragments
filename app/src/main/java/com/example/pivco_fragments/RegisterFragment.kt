@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.example.pivco_fragments.databinding.FragmentRegisterBinding // Импортируйте сгенерированный класс View Binding
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: RuntimeException(":(") as FragmentRegisterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,29 +26,30 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonEnter.setOnClickListener {
-            startHomeFragment()
-        }
-    }
-
-    private fun startHomeFragment() {
-        val passwordText1 = binding.editTextNumberPassword.text.toString()
-        val passwordText2 = binding.editTextNumberPassword2.text.toString()
-
-        if (passwordText1 == passwordText2) {
             val mailText = binding.editTextTextEmailAddress.text.toString()
+            val passwordText1 = binding.editTextNumberPassword.text.toString()
+            val passwordText2 = binding.editTextNumberPassword2.text.toString()
 
-            val bundle = Bundle()
-            bundle.putString("mail", mailText)
+            if (passwordText1 == passwordText2) {
 
-            val homeFragment = HomeFragment()
-            homeFragment.arguments = bundle
+                val newPerson = Person(mailText, passwordText1)
 
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, homeFragment)
-                .addToBackStack(null)
-                .commit()
-        } else {
-            binding.incorrect.text = "Пароли не совпадают!"
+                Person.list.add(newPerson)
+
+                val bundle = Bundle()
+                bundle.putSerializable("person", newPerson)
+
+                findNavController().navigate(
+                    R.id.action_registerFragment_to_homeFragment,
+                    bundle,
+                    NavOptions.Builder().setPopUpTo(R.id.onboardFragment, true).build()
+                )
+
+
+            } else {
+                binding.incorrect.text = "Пароли не совпадают!"
+            }
+
         }
     }
 

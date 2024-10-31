@@ -1,16 +1,19 @@
 package com.example.pivco_fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import com.example.pivco_fragments.databinding.FragmentOnboardBinding
 
 class OnboardFragment : Fragment() {
 
     private var _binding: FragmentOnboardBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: RuntimeException(":(") as FragmentOnboardBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,31 +26,15 @@ class OnboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonEnter.setOnClickListener {
-            startLoginFragment()
+        binding.buttonEnter.setOnClickListener{
+            findNavController().navigate(R.id.action_onboardFragment_to_loginFragment)
+        }
+        binding.buttonRegistration.setOnClickListener{
+            findNavController().navigate(R.id.action_onboardFragment_to_registerFragment)
         }
 
-        binding.buttonRegistration.setOnClickListener {
-            startRegisterFragment()
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().finish()
         }
-    }
-
-    private fun startLoginFragment() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, LoginFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-
-    private fun startRegisterFragment() {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, RegisterFragment())
-            .addToBackStack(null)
-            .commit()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

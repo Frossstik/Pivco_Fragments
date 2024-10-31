@@ -5,32 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.pivco_fragments.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: RuntimeException(":(") as FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,31 +26,27 @@ class LoginFragment : Fragment() {
 
 
         binding.buttonEnter.setOnClickListener {
-            startHomeFragment()
+            val mailText: String = binding.editTextTextEmailAddress.text.toString()
+            val passwordText: String = binding.editTextNumberPassword.text.toString()
+            var tempBool : Boolean = false
+            for (person in Person.list) {
+                if (mailText == person.mail && passwordText == person.password) {
+                    val bundle = Bundle()
+                    bundle.putSerializable("person", person)
+                    findNavController().navigate(
+                        R.id.action_loginFragment_to_homeFragment,
+                        bundle,
+                        NavOptions.Builder().setPopUpTo(R.id.onboardFragment, true).build()
+                    )
+                    tempBool = true
+                    break
+                }
+            }
+            if (!tempBool)
+                binding.incorrect.text = "Пароли не совпадают!"
         }
     }
 
-    private fun startHomeFragment() {
-        val mailText: String = binding.editTextTextEmailAddress.text.toString()
-        val passwordText: String = binding.editTextNumberPassword.text.toString()
-
-        if (mailText == "mail@gmail.com" && passwordText == "11111111") {
-            val bundle = Bundle().apply {
-                putString("mail", mailText)
-            }
-
-            val homeFragment = HomeFragment().apply {
-                arguments = bundle
-            }
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, homeFragment)
-                .addToBackStack(null)
-                .commit()
-        } else {
-            binding.incorrect.text = "Неверный email или пароль!"
-        }
-    }
 }
 
 
