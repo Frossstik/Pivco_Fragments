@@ -2,11 +2,17 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
+
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 android {
     namespace = "com.example.pivco_fragments"
     compileSdk = 34
+
+    viewBinding {
+        enable = true
+    }
 
     defaultConfig {
         applicationId = "com.example.pivco_fragments"
@@ -43,6 +49,7 @@ android {
 
 
 dependencies {
+    implementation(libs.transport.runtime)
     val nav_version = "2.8.1"
 
     // Jetpack Compose integration
@@ -69,5 +76,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    implementation("io.ktor:ktor-client-core:2.3.0")
+    implementation("io.ktor:ktor-client-okhttp:2.3.0")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.0")
+    implementation("io.ktor:ktor-client-logging:2.3.0")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.0")
+
 
 }

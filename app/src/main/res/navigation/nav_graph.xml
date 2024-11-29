@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.pivco_fragments.LoginFragment"
+        android:name="com.example.pivco_fragments.Fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -17,16 +17,20 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.pivco_fragments.HomeFragment"
+        android:name="com.example.pivco_fragments.Fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
+        <argument
+            android:name = "personObject"
+            app:argType="com.example.pivco_fragments.Models.Person"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_homeFragment_to_onboardFragment"
             app:destination="@id/onboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/onboardFragment"
-        android:name="com.example.pivco_fragments.OnboardFragment"
+        android:name="com.example.pivco_fragments.Fragments.OnboardFragment"
         android:label="fragment_onboard"
         tools:layout="@layout/fragment_onboard" >
         <action
@@ -38,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.pivco_fragments.RegisterFragment"
+        android:name="com.example.pivco_fragments.Fragments.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
