@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.example.pivco_fragments.Models.Person
+import com.example.pivco_fragments.Data.Person
 import com.example.pivco_fragments.R
 import com.example.pivco_fragments.databinding.FragmentLoginBinding
 

@@ -2,7 +2,7 @@ package com.example.pivco_fragments
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pivco_fragments.Models.Person
+import com.example.pivco_fragments.Data.Person
 import com.example.pivco_fragments.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

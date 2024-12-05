@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
 
     kotlin("plugin.serialization") version "2.1.0"
+
+    kotlin("kapt") version "2.1.0"
 }
 
 buildscript {

@@ -13,7 +13,6 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:background="@drawable/border"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,8 +24,6 @@
             android:layout_gravity="start"
             android:layout_margin="5dp"
             app:srcCompat="@drawable/pivko" />
-
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -64,20 +61,27 @@
             android:background="@color/white"
             android:src="@drawable/ic_settings"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userList"
-        android:clipToPadding="false"
+    <!-- SwipeRefreshLayout для обновления списка -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameHeaderLayout"
-        tools:listitem="@layout/list_characters" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- RecyclerView для отображения списка персонажей -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/userList"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_characters" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

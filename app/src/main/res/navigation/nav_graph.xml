@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_home" >
         <argument
             android:name = "personObject"
-            app:argType="com.example.pivco_fragments.Models.Person"
+            app:argType="com.example.pivco_fragments.Data.Person"
             app:nullable="true"/>
         <action
             android:id="@+id/action_homeFragment_to_onboardFragment"

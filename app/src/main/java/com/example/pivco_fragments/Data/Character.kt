@@ -1,4 +1,4 @@
-package com.example.pivco_fragments.Models
+package com.example.pivco_fragments.Data
 
 import kotlinx.serialization.Serializable
 
