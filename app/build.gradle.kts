@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(libs.transport.runtime)
+    implementation(libs.androidx.datastore.core.android)
     val nav_version = "2.8.1"
 
     // Jetpack Compose integration
