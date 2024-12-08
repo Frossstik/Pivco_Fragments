@@ -1,6 +1,5 @@
 package com.example.pivco_fragments.Entity
 
-import com.example.pivco_fragments.Ktor.KtorNetwork
 import com.example.pivco_fragments.Ktor.KtorNetworkApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

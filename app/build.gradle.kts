@@ -3,9 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
 
-    kotlin("kapt") version "2.1.0"
 
     kotlin("plugin.serialization") version "2.1.0"
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
+
 }
 
 android {
@@ -93,9 +94,6 @@ dependencies {
 
     implementation ("com.google.code.gson:gson:2.11.0")
 
-    // Room dependencies
-    implementation("androidx.room:room-runtime:2.5.0") // Основная зависимость Room
-    implementation("androidx.room:room-ktx:2.5.0") // Расширения для Kotlin
-    kapt("androidx.room:room-compiler:2.5.0")
-
+    implementation("androidx.room:room-runtime:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
 }
