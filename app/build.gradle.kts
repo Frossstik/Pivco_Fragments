@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.preference)
+    implementation(libs.androidx.datastore.preferences.core.jvm)
     val nav_version = "2.8.1"
 
     // Jetpack Compose integration
