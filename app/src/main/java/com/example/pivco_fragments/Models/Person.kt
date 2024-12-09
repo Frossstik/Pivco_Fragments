@@ -1,4 +1,4 @@
-package com.example.pivco_fragments.Data
+package com.example.pivco_fragments.Models
 
 import java.io.Serializable
 

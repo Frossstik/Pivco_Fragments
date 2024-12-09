@@ -1,15 +1,14 @@
 package com.example.pivco_fragments.Ktor
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pivco_fragments.Data.Character
-import com.example.pivco_fragments.Entity.CharacterEntity
+import com.example.pivco_fragments.Models.Character
 import com.example.pivco_fragments.databinding.ListCharactersBinding
 
 class CharactersAdapter(private var characters: List<Character>) :
     RecyclerView.Adapter<CharactersAdapter.CharacterViewHolder>() {
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {

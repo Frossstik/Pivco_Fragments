@@ -1,4 +1,4 @@
-package com.example.pivco_fragments.Entity
+package com.example.pivco_fragments.Database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [CharacterEntity::class], version = 1, exportSchema = false)
-@TypeConverters(Converters::class)
+@Database(entities = [com.example.pivco_fragments.Models.CharacterEntity::class], version = 1, exportSchema = false)
+@TypeConverters(TypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun characterDao(): CharacterDao
 
@@ -15,12 +15,12 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "characters_database"
+                    "characters"
                 ).build()
                 INSTANCE = instance
                 instance

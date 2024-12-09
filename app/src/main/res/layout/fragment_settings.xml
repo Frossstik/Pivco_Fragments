@@ -16,36 +16,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_export_file"
-        android:textColor="@color/yellow"
-        android:backgroundTint="@android:color/black"
+
+    <Spinner
+        android:id="@+id/spinner_language"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:entries="@array/language_entries"
+        android:minHeight="48dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toEndOf="@+id/switch_dark_mode"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_export_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/black"
         android:text="Экспортировать файл"
-        app:layout_constraintTop_toBottomOf="@id/switch_dark_mode"
+        android:textColor="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/switch_dark_mode" />
 
     <Button
         android:id="@+id/button_delete_file"
-        android:textColor="@color/yellow"
-        android:backgroundTint="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/black"
         android:text="Удалить файл"
-        app:layout_constraintTop_toBottomOf="@id/button_export_file"
+        android:textColor="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"/>
+        app:layout_constraintTop_toBottomOf="@id/button_export_file" />
 
     <Button
         android:id="@+id/button_restore_file"
-        android:textColor="@color/yellow"
-        android:backgroundTint="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/black"
         android:text="Восстановить файл"
-        app:layout_constraintTop_toBottomOf="@id/button_delete_file"
+        android:textColor="@color/yellow"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"/>
+        app:layout_constraintTop_toBottomOf="@id/button_delete_file" />
 </androidx.constraintlayout.widget.ConstraintLayout>

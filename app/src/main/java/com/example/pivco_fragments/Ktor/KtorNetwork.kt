@@ -2,7 +2,7 @@ package com.example.pivco_fragments.Ktor
 
 import android.util.Log
 
-import com.example.pivco_fragments.Data.Character
+import com.example.pivco_fragments.Models.Character
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
@@ -12,6 +12,7 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.http.path
 import kotlinx.serialization.json.Json
+import okhttp3.internal.concurrent.TaskRunner.Companion.logger
 import kotlin.time.Duration.Companion.seconds
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -20,7 +21,9 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.parameter
+import io.ktor.client.utils.EmptyContent.headers
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.builtins.ListSerializer
 
 private const val NETWORK_BASE_URL = "www.anapioficeandfire.com"
 
@@ -47,7 +50,7 @@ class KtorNetwork : KtorNetworkApi {
         }
     }
 
-    override suspend fun getCharacters(): List<Character> {
+    override suspend fun getCharacters(page: Int): List<Character> {
         return try {
             client.get {
                 url {
@@ -55,23 +58,20 @@ class KtorNetwork : KtorNetworkApi {
                     protocol = URLProtocol.HTTPS
                     contentType(ContentType.Application.Json)
                     path("api", "characters")
-                    parameter("page", 6)
+                    parameter("page", page)
                     parameter("pageSize", "50")
                 }
             }.let { response ->
-                Log.d("Ktor Response", response.body())
-                response.body()
+                val jsonString = response.body<String>()
+                json.decodeFromString(ListSerializer(Character.serializer()), jsonString)
             }
-
         } catch (exception: Exception) {
             Log.e("Error", exception.message.toString())
             listOf()
         }
     }
 
-    companion object {
-        fun create(): KtorNetworkApi {
-            return KtorNetwork()
-        }
+    override fun close() {
+        client.close()
     }
 }
