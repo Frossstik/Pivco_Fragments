@@ -107,14 +107,14 @@
             android:inputType="number" />
 
         <Button
-            android:id="@+id/someButton"
+            android:id="@+id/uploadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/black"
             android:textColor="@color/yellow"
             android:text="Загрузить" />
         <Button
-            android:id="@+id/someButton2"
+            android:id="@+id/clearButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/black"

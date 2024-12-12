@@ -85,14 +85,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.someButton.setOnClickListener {
+        binding.uploadButton.setOnClickListener {
             val number = binding.numberInput.text.toString().toIntOrNull() ?: 1
             lifecycleScope.launch {
+                repository.deleteAllCharacters()
                 fetchAndSaveCharacters(number)
             }
         }
 
-        binding.someButton2.setOnClickListener {
+        binding.clearButton.setOnClickListener {
             lifecycleScope.launch {
                 repository.deleteAllCharacters()
                 adapter.updateData(emptyList())
