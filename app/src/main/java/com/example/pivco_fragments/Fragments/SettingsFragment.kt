@@ -7,18 +7,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.example.pivco_fragments.databinding.FragmentSettingsBinding
 import java.io.File
 import android.widget.Toast
+import androidx.datastore.core.DataStore
 import androidx.lifecycle.lifecycleScope
 import com.example.pivco_fragments.Ktor.KtorNetwork
 import kotlinx.coroutines.launch
 import java.io.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.example.pivco_fragments.Database.AppDatabase
+import com.example.pivco_fragments.Database.CharacterDao
+import com.example.pivco_fragments.Database.CharacterRepository
+import com.example.pivco_fragments.Ktor.KtorNetworkApi
+import com.example.pivco_fragments.R
+import com.example.pivco_fragments.dataStore
+import kotlinx.coroutines.flow.map
 
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding  ?: RuntimeException(":(") as FragmentSettingsBinding
+
+    private val LANGUAGE_KEY = stringPreferencesKey("language_key")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +48,7 @@ class SettingsFragment : Fragment() {
 
         setupDarkModeSwitch()
         setupFileManagementButtons()
+        setupLanguageSelector()
     }
 
     private fun setupDarkModeSwitch() {
@@ -42,6 +58,32 @@ class SettingsFragment : Fragment() {
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             sharedPreferences.edit().putBoolean("dark_mode", isChecked).apply()
+        }
+    }
+
+    private fun setupLanguageSelector() {
+        val sharedPreferences = requireContext().dataStore
+
+        lifecycleScope.launch {
+            sharedPreferences.data.map { preferences ->
+                preferences[LANGUAGE_KEY] ?: "en"
+            }.collect { savedLanguage ->
+                val index = resources.getStringArray(R.array.language_values).indexOf(savedLanguage)
+                binding.spinnerLanguage.setSelection(index)
+            }
+        }
+
+        binding.spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedLanguage = resources.getStringArray(R.array.language_values)[position]
+                lifecycleScope.launch {
+                    sharedPreferences.edit { settings ->
+                        settings[LANGUAGE_KEY] = selectedLanguage
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -61,8 +103,10 @@ class SettingsFragment : Fragment() {
 
     private fun exportFile() {
         lifecycleScope.launch {
-            val ktorNetwork = KtorNetwork()
-            val characters = ktorNetwork.getCharacters()
+            val database = AppDatabase.getInstance(requireContext())
+            val repository = CharacterRepository(database.characterDao())
+
+            val characters = repository.getAllCharacters()
 
             if (characters.isNotEmpty()) {
                 val fileName = "Characters.txt"
@@ -77,13 +121,13 @@ class SettingsFragment : Fragment() {
 
                         characters.forEach { character ->
                             val characterInfo = """
-                                Имя: ${character.name}
-                                Культура: ${character.culture ?: "-"}
-                                Родился: ${character.born ?: "-"}
-                                Титулы: ${if (character.titles.isNotEmpty()) character.titles.joinToString(", ") else "-"}
-                                Псевдонимы: ${if (character.aliases.isNotEmpty()) character.aliases.joinToString(", ") else "-"}
-                                Играл(а): ${if (character.playedBy.isNotEmpty()) character.playedBy.joinToString(", ") else "-"}
-                            """.trimIndent() + "\n\n"
+                            Имя: ${character.name}
+                            Культура: ${character.culture ?: "-"}
+                            Родился: ${character.born ?: "-"}
+                            Титулы: ${if (character.titles.isNotEmpty()) character.titles.joinToString(", ") else "-"}
+                            Псевдонимы: ${if (character.aliases.isNotEmpty()) character.aliases.joinToString(", ") else "-"}
+                            Играл(а): ${if (character.playedBy.isNotEmpty()) character.playedBy.joinToString(", ") else "-"}
+                        """.trimIndent() + "\n\n"
 
                             outputStream.write(characterInfo.toByteArray())
                         }
@@ -104,6 +148,7 @@ class SettingsFragment : Fragment() {
             }
         }
     }
+
 
 
     private fun deleteFile() {

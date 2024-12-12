@@ -2,8 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
 
     kotlin("plugin.serialization") version "2.1.0"
+
+
+
 }
 
 android {
@@ -51,6 +55,9 @@ android {
 dependencies {
     implementation(libs.transport.runtime)
     implementation(libs.androidx.datastore.core.android)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.preference)
+    implementation(libs.androidx.datastore.preferences.core.jvm)
     val nav_version = "2.8.1"
 
     // Jetpack Compose integration
@@ -85,6 +92,12 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.3.0")
     implementation("io.ktor:ktor-client-logging:2.3.0")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.0")
+
+    implementation("androidx.room:room-runtime:2.5.1")
+    implementation("androidx.room:room-ktx:2.5.1")
+    ksp("androidx.room:room-compiler:2.5.1")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 
 }

@@ -23,6 +23,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.parameter
 import io.ktor.client.utils.EmptyContent.headers
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.builtins.ListSerializer
 
 private const val NETWORK_BASE_URL = "www.anapioficeandfire.com"
 
@@ -49,7 +50,7 @@ class KtorNetwork : KtorNetworkApi {
         }
     }
 
-    override suspend fun getCharacters(): List<Character> {
+    override suspend fun getCharacters(page: Int): List<Character> {
         return try {
             client.get {
                 url {
@@ -57,17 +58,20 @@ class KtorNetwork : KtorNetworkApi {
                     protocol = URLProtocol.HTTPS
                     contentType(ContentType.Application.Json)
                     path("api", "characters")
-                    parameter("page", 6)
+                    parameter("page", page)
                     parameter("pageSize", "50")
                 }
             }.let { response ->
-                Log.d("Ktor Response", response.body())
-                response.body()
+                val jsonString = response.body<String>()
+                json.decodeFromString(ListSerializer(Character.serializer()), jsonString)
             }
-
         } catch (exception: Exception) {
             Log.e("Error", exception.message.toString())
             listOf()
         }
+    }
+
+    override fun close() {
+        client.close()
     }
 }
