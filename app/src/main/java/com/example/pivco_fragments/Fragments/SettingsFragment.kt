@@ -25,6 +25,7 @@ import com.example.pivco_fragments.Database.CharacterDao
 import com.example.pivco_fragments.Database.CharacterRepository
 import com.example.pivco_fragments.Ktor.KtorNetworkApi
 import com.example.pivco_fragments.R
+import com.example.pivco_fragments.dataStore
 import kotlinx.coroutines.flow.map
 
 class SettingsFragment : Fragment() {
@@ -33,7 +34,6 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding  ?: RuntimeException(":(") as FragmentSettingsBinding
 
     private val LANGUAGE_KEY = stringPreferencesKey("language_key")
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
